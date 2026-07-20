@@ -86,7 +86,28 @@ draw_canon_with_preview :: proc(ball : Ball) {
 	rl.DrawCircle(ball.x, ball.y, f32(ball.radius), ball.color)
 
 	start : [2]i32 = {ball.x, ball.y - ball.radius * 2}
-	end : [2]i32 = {i32(mouse.x), math.min(i32(mouse.y) + 30, start.y)}
+
+
+	// area_radius :: 100
+	// z := 100 // ?
+
+	// circle = {
+	// 	x      = window_width / 2,
+	// 	y      = window_height,
+	// 	radius = area_radius,
+	// }
+	// z = point_nearest_to(circle, mouse.x, mouse.y)
+
+	circle_area : [2]i32 = {450, 900} // window / 2, window TODO, not hardcoded
+	middle_point : [2]i32 = {
+		math.min(i32(mouse.x), circle_area.x) + math.abs(i32(mouse.x) - circle_area.x) / 2,
+		math.min(i32(mouse.y), circle_area.y) + math.abs(i32(mouse.y) - circle_area.y) / 2,
+	}
+
+	// end : [2]i32 = {i32(mouse.x), math.min(math.max(i32(mouse.y) + 30, start.y - z), start.y)}
+	end := middle_point
+        // TODO: middle_point is working, figure out how to clamp it to the radius of the circle
+        // I'm sure it's simpler than it seems, it's just not coming to me rn
 
 	rl.DrawLine(start.x, start.y, end.x, end.y, rl.GRAY)
 }
